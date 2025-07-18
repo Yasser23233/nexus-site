@@ -72,16 +72,18 @@ export const createUserElement = (username) => {
   userEl.className = 'user-item';
   userEl.dataset.username = username;
 
-  const badge = username === 'ياسر' ? '👑' : '⭐';
-
   userEl.innerHTML = `
     <div class="avatar">${username.charAt(0)}</div>
     <div class="contact-info">
-      <span class="username">${username} <span class="user-badge">${badge}</span></span>
+      <span class="username">${username}</span>
       <div class="dm-message-time">آخر نشاط: غير معروف</div>
     </div>
   `;
-  
+
+  if (username === 'ياسر') {
+    userEl.querySelector('.username').classList.add('admin-user');
+  }
+
   return userEl;
 };
 
@@ -114,6 +116,14 @@ export const setupSidebarToggle = () => {
   if (!toggleBtn || !sidebar) return;
   toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('collapsed');
+    const icon = toggleBtn.querySelector('i');
+    if (sidebar.classList.contains('collapsed')) {
+      icon.classList.remove('fa-chevron-left');
+      icon.classList.add('fa-chevron-right');
+    } else {
+      icon.classList.remove('fa-chevron-right');
+      icon.classList.add('fa-chevron-left');
+    }
   });
 };
 
