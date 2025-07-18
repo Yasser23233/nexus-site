@@ -10,6 +10,12 @@ const fs = require('fs');
 const compression = require('compression');
 const WebSocket = require('ws');
 
+// التأكد من وجود مجلد رفع الصور
+const uploadsDir = path.join(__dirname, '..', 'public', 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
@@ -134,7 +140,7 @@ function storePrivateMessage(data) {
 // Middleware
 app.use(cors());
 app.use(compression());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // قاعدة البيانات (يتم تخطيها في بيئة الاختبار)
@@ -226,10 +232,36 @@ app.get('/api/messages/dm/:user1/:user2', (req, res) => {
 app.get('/api/status/:username', (req, res) => {
   const { username } = req.params;
   const isOnline = connectedUsers.has(username);
-  
-  res.json({ 
+
+  res.json({
     status: isOnline ? 'online' : 'offline',
     lastActive: new Date().toISOString()
+  });
+});
+
+// رفع صورة بصيغة base64 وحفظها في مجلد uploads
+app.post('/api/upload', (req, res) => {
+  const { data } = req.body;
+  if (!data || !data.startsWith('data:image/')) {
+    return res.status(400).json({ error: 'تنسيق صورة غير صالح' });
+  }
+
+  const matches = data.match(/^data:(image\/\w+);base64,(.+)$/);
+  if (!matches) {
+    return res.status(400).json({ error: 'تنسيق غير صالح' });
+  }
+
+  const ext = matches[1].split('/')[1];
+  const buffer = Buffer.from(matches[2], 'base64');
+  const filename = `${Date.now()}-${Math.random().toString(36).substring(2,8)}.${ext}`;
+  const filepath = path.join(uploadsDir, filename);
+
+  fs.writeFile(filepath, buffer, (err) => {
+    if (err) {
+      console.error('فشل حفظ الصورة:', err);
+      return res.status(500).json({ error: 'خطأ في الخادم' });
+    }
+    res.json({ url: `/uploads/${filename}` });
   });
 });
 

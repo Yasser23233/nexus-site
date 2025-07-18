@@ -10,7 +10,10 @@ import {
   checkUserStatus,
   connectWebSocket,
   sendSocketMessage,
-  sendTypingStatus
+  sendTypingStatus,
+  setupSidebarToggle,
+  setupThemeToggle,
+  uploadImage
 } from './utils.js';
 
 // التحقق من تسجيل الدخول
@@ -28,6 +31,10 @@ const dmSearchInput = document.getElementById('dmSearchInput');
 const addContactBtn = document.getElementById('addContactBtn');
 const dmRefreshBtn = document.getElementById('dmRefreshBtn');
 const dmClearBtn = document.getElementById('dmClearBtn');
+const dmImageInput = document.getElementById('dmImageInput');
+const attachmentIcon = document.querySelector('.attachment-icon');
+const emojiIcon = document.querySelector('.emoji-icon');
+const emojiPicker = document.getElementById('emojiPicker');
 
 let currentReceiver = '';
 let allUsers = [];
@@ -137,8 +144,8 @@ const renderDMs = (messages) => {
 };
 
 // إرسال رسالة خاصة
-const sendDM = async () => {
-  const content = dmInput.value.trim();
+const sendDM = async (customContent) => {
+  const content = customContent || dmInput.value.trim();
   if (!content || !currentReceiver) return;
 
   let tempMessage;
@@ -264,6 +271,8 @@ const handleTyping = () => {
 document.addEventListener('DOMContentLoaded', () => {
   initUserSidebar();
   setupLogout();
+  setupSidebarToggle();
+  setupThemeToggle();
   loadUsers();
   
   dmSearchInput.addEventListener('input', searchContacts);
@@ -345,6 +354,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dmInput.value.trim() !== '' && currentReceiver) {
       handleTyping();
     }
+  });
+
+  attachmentIcon.addEventListener('click', () => dmImageInput.click());
+  dmImageInput.addEventListener('change', async () => {
+    const file = dmImageInput.files[0];
+    if (!file) return;
+    try {
+      const { url } = await uploadImage(file);
+      sendDM(`<img src="${url}" class="chat-image">`);
+    } catch (err) {
+      showError('فشل رفع الصورة');
+    }
+  });
+
+  emojiIcon.addEventListener('click', () => {
+    emojiPicker.style.display = emojiPicker.style.display === 'none' ? 'block' : 'none';
+  });
+  emojiPicker.addEventListener('emoji-click', (e) => {
+    dmInput.value += e.detail.unicode;
   });
 });
 
