@@ -24,16 +24,16 @@
 
 @keyframes glow {
   0% {
-    box-shadow: 0 0 5px #4FC3F7;
-    text-shadow: 0 0 5px #4FC3F7;
+    box-shadow: 0 0 5px #FFD700;
+    text-shadow: 0 0 5px #FFD700;
   }
   50% {
-    box-shadow: 0 0 20px #4FC3F7;
-    text-shadow: 0 0 10px #4FC3F7;
+    box-shadow: 0 0 20px #FFD700;
+    text-shadow: 0 0 10px #FFD700;
   }
   100% {
-    box-shadow: 0 0 5px #4FC3F7;
-    text-shadow: 0 0 5px #4FC3F7;
+    box-shadow: 0 0 5px #FFD700;
+    text-shadow: 0 0 5px #FFD700;
   }
 }
 
@@ -54,10 +54,10 @@
 
 @keyframes neon {
   0% {
-    text-shadow: 0 0 5px #4FC3F7, 0 0 10px #0288D1;
+    text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700;
   }
   100% {
-    text-shadow: 0 0 10px #4FC3F7, 0 0 20px #0288D1;
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
   }
 }
 
@@ -80,7 +80,7 @@
   display: inline-block;
   width: 8px;
   height: 8px;
-  background: #00cc66;
+  background: #FFD700;
   border-radius: 50%;
   margin: 0 2px;
   animation: typing 1.4s infinite ease-in-out;
@@ -100,7 +100,7 @@
   bottom: 20px;
   right: 20px;
   background: rgba(20, 20, 20, 0.95);
-  border: 1px solid #0288D1;
+  border: 1px solid #FFD700;
   border-radius: 8px;
   padding: 15px;
   display: flex;
@@ -115,7 +115,7 @@
 .notification-avatar {
   width: 40px;
   height: 40px;
-  background: linear-gradient(to bottom, #4FC3F7, #0288D1);
+  background: linear-gradient(to bottom, #FFD700, #FFD700);
   color: #000;
   border-radius: 50%;
   display: flex;
@@ -127,7 +127,7 @@
 
 .notification-sender {
   font-weight: bold;
-  color: #4FC3F7;
+  color: #FFD700;
   margin-bottom: 3px;
 }
 
@@ -160,15 +160,15 @@
 @keyframes logo-pulse {
   0% {
     transform: scale(1);
-    box-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
   }
   50% {
     transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(79, 195, 247, 0.8);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
   }
   100% {
     transform: scale(1);
-    box-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
   }
 }
 
