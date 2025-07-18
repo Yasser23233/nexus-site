@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --primary-gradient: linear-gradient(135deg, #1A2980, #26D0CE);
+      --primary-gradient: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
     }
     
     .login-container {
@@ -44,7 +44,7 @@
       max-width: 450px;
       padding: 40px 30px;
       background: rgba(15, 15, 15, 0.85);
-      border: 1px solid rgba(255, 215, 0, 0.3);
+      border: 1px solid rgba(var(--primary-rgb), 0.3);
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(10px);
@@ -59,7 +59,7 @@
       width: 90px;
       height: 90px;
       margin: 0 auto 15px;
-      background: rgba(255, 215, 0, 0.9);
+      background: rgba(var(--primary-rgb), 0.9);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -67,15 +67,15 @@
       font-size: 2.2rem;
       font-weight: bold;
       color: #000;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+      box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.5);
       animation: logo-pulse 3s infinite;
     }
     
     .login-title {
-      color: #FFD700;
+      color: var(--primary-color);
       font-size: 1.8rem;
       margin-bottom: 5px;
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+      text-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3);
     }
     
     .login-subtitle {
@@ -90,7 +90,7 @@
     .input-group label {
       display: block;
       margin-bottom: 8px;
-      color: #FFD700;
+      color: var(--primary-color);
       font-weight: 500;
       font-size: 0.95rem;
     }
@@ -106,22 +106,22 @@
       transition: all 0.3s;
       cursor: pointer;
       appearance: none;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFD700'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236c63ff'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
       background-repeat: no-repeat;
       background-position: right 15px center;
       background-size: 16px;
     }
     
     .input-group select:focus {
-      border-color: #FFD700;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+      border-color: var(--primary-color);
+      box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3);
       outline: none;
     }
     
     .login-button {
       width: 100%;
       padding: 14px;
-      background: #FFD700;
+      background: var(--primary-color);
       border: none;
       border-radius: 10px;
       color: #000;
@@ -139,9 +139,9 @@
     }
     
     .login-button:hover {
-      background: #FFD700;
+      background: var(--primary-color);
       transform: translateY(-2px);
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+      box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.6);
     }
     
     .login-button:disabled {
@@ -166,9 +166,9 @@
     
     .loading-spinner {
       display: none;
-      border: 3px solid rgba(255, 215, 0, 0.3);
+      border: 3px solid rgba(var(--primary-rgb), 0.3);
       border-radius: 50%;
-      border-top: 3px solid #FFD700;
+      border-top: 3px solid var(--primary-color);
       width: 20px;
       height: 20px;
       animation: spin 1s linear infinite;
@@ -178,15 +178,15 @@
     @keyframes logo-pulse {
       0% {
         transform: scale(1);
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.5);
       }
       50% {
         transform: scale(1.05);
-        box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+        box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.8);
       }
       100% {
         transform: scale(1);
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.5);
       }
     }
     
@@ -217,8 +217,8 @@
     }
     
     .status-online {
-      background: rgba(255, 215, 0, 0.2);
-      color: #FFD700;
+      background: rgba(var(--primary-rgb), 0.2);
+      color: var(--primary-color);
     }
     
     .status-offline {
@@ -233,8 +233,8 @@
     }
     
     .status-online .status-indicator {
-      background: #FFD700;
-      box-shadow: 0 0 8px #FFD700;
+      background: var(--primary-color);
+      box-shadow: 0 0 8px var(--primary-color);
     }
     
     .status-offline .status-indicator {

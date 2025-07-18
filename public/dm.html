@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --dm-bg: linear-gradient(135deg, #0a0a0a, #0a0a0a);
+      --dm-bg: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
     }
     
     .app-container {
@@ -26,17 +26,17 @@
     
     .empty-dm {
       background: rgba(20, 20, 20, 0.4);
-      border: 1px dashed rgba(255, 215, 0, 0.3);
+      border: 1px dashed rgba(var(--primary-rgb), 0.3);
     }
     
     .dm-search input {
       background: rgba(30, 30, 30, 0.6);
-      border: 1px solid rgba(255, 215, 0, 0.2);
+      border: 1px solid rgba(var(--primary-rgb), 0.2);
     }
     
     .contact-item.active {
-      background: rgba(255, 215, 0, 0.15);
-      border-left: 3px solid #FFD700;
+      background: rgba(var(--primary-rgb), 0.15);
+      border-left: 3px solid var(--primary-color);
     }
     
     .contact-info {
@@ -50,7 +50,7 @@
     }
     
     .new-message-badge {
-      background: #FFD700;
+      background: var(--primary-color);
       color: #000;
       font-size: 0.7rem;
       width: 20px;
@@ -82,7 +82,7 @@
       display: inline-block;
       width: 8px;
       height: 8px;
-      background: #FFD700;
+      background: var(--primary-color);
       border-radius: 50%;
       margin: 0 2px;
       animation: typing 1.4s infinite ease-in-out;
@@ -103,7 +103,7 @@
     }
     
     .status-seen {
-      color: #FFD700;
+      color: var(--primary-color);
     }
   </style>
 </head>
