@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus | الرسائل الخاصة</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --dm-bg: linear-gradient(135deg, #1e3c72, #2a5298);
+    }
+    
+    .app-container {
+      background: var(--dm-bg);
+      min-height: 100vh;
+    }
+    
+    .dm-box {
+      background: 
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="2" height="2" fill="%23ffffff" opacity="0.03"/></svg>'),
+        rgba(0, 0, 0, 0.25);
+    }
+    
+    .empty-dm {
+      background: rgba(20, 20, 20, 0.4);
+      border: 1px dashed rgba(255, 215, 0, 0.3);
+    }
+    
+    .dm-search input {
+      background: rgba(30, 30, 30, 0.6);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+    }
+    
+    .contact-item.active {
+      background: rgba(255, 215, 0, 0.15);
+      border-left: 3px solid #FFD700;
+    }
+    
+    .contact-info {
+      overflow: hidden;
+    }
+    
+    .dm-message-time {
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-top: 3px;
+    }
+    
+    .new-message-badge {
+      background: #FFD700;
+      color: #000;
+      font-size: 0.7rem;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    
+    /* تحسينات جديدة */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      padding: 8px 15px;
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 20px;
+      max-width: 160px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #aaa;
+      align-self: flex-start;
+      animation: pulse 1.5s infinite;
+    }
+    
+    .typing-indicator span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #00cc66;
+      border-radius: 50%;
+      margin: 0 2px;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+    
+    .message-status {
+      font-size: 0.7rem;
+      color: #777;
+      text-align: right;
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    
+    .status-delivered {
+      color: #aaa;
+    }
+    
+    .status-seen {
+      color: #FFD700;
+    }
+  </style>
+</head>
+<body class="hacker-theme">
+  <div class="app-container">
+    <!-- الشريط الجانبي -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">N</div>
+        <h2 class="app-name">Nexus</h2>
+      </div>
+      
+      <div class="user-info">
+        <div class="avatar" id="userAvatar">?</div>
+        <div>
+          <span class="username" id="usernameDisplay">مستخدم</span>
+          <div class="last-active" id="userStatus">نشط الآن</div>
+        </div>
+      </div>
+      
+      <nav class="nav-menu">
+        <a href="chat.html" class="nav-item">
+          <i class="icon fas fa-comments"></i>
+          <span>الشات العام</span>
+        </a>
+        <a href="dm.html" class="nav-item active">
+          <i class="icon fas fa-lock"></i>
+          <span>الرسائل الخاصة</span>
+        </a>
+        <a href="#" class="nav-item" id="logoutBtn">
+          <i class="icon fas fa-sign-out-alt"></i>
+          <span>تسجيل الخروج</span>
+        </a>
+      </nav>
+      
+      <div class="sidebar-section">
+        <div class="section-header">
+          <h3 class="section-title">جهات الاتصال</h3>
+          <div class="header-action" id="addContactBtn" title="إضافة جهة اتصال">
+            <i class="fas fa-user-plus"></i>
+          </div>
+        </div>
+        <div class="dm-search">
+          <i class="fas fa-search"></i>
+          <input type="text" id="dmSearchInput" placeholder="بحث في جهات الاتصال...">
+        </div>
+        <div id="dmContactsList" class="contacts-list">
+          <!-- سيتم تعبئتها بالجافاسكريبت -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- منطقة المحادثة الرئيسية -->
+    <div class="main-content">
+      <div class="dm-header">
+        <div class="recipient-info">
+          <div class="avatar" id="recipientAvatar">?</div>
+          <div>
+            <h1 id="recipientName" class="recipient-name">اختر مستلمًا</h1>
+            <div id="recipientStatus" class="last-active">آخر نشاط: غير معروف</div>
+          </div>
+        </div>
+        <div class="dm-actions">
+          <div class="header-action" id="dmRefreshBtn" title="تحديث المحادثة">
+            <i class="fas fa-sync-alt"></i>
+          </div>
+          <div class="header-action" id="dmClearBtn" title="مسح المحادثة">
+            <i class="fas fa-trash"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div id="dmBox" class="chat-box dm-box">
+        <div class="empty-dm">
+          <i class="fas fa-comment-slash"></i>
+          <p>لا توجد محادثات بعد، اختر مستلمًا من القائمة لبدء المحادثة</p>
+        </div>
+      </div>
+      
+      <div class="message-input-area">
+        <div class="input-container">
+          <input type="text" id="dmInput" class="message-input" placeholder="اكتب رسالة خاصة..." autocomplete="off" disabled>
+          <div class="input-actions">
+            <i class="fas fa-paperclip attachment-icon" title="إرفاق ملف"></i>
+            <i class="fas fa-smile emoji-icon" title="إضافة إيموجي"></i>
+          </div>
+        </div>
+        <button id="dmSendBtn" class="send-button" disabled>
+          <span>إرسال</span>
+          <i class="send-icon fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <script type="module" src="js/dm.js"></script>
+</body>
+</html>  

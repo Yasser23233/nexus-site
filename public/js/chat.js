@@ -1,0 +1,236 @@
+import { 
+  API, 
+  fetchData, 
+  user, 
+  formatDateTime, 
+  initUserSidebar,
+  setupLogout,
+  createUserElement,
+  showError,
+  checkUserStatus,
+  connectWebSocket,
+  sendSocketMessage,
+  sendTypingStatus
+} from './utils.js';
+
+// التحقق من تسجيل الدخول
+if (!user) window.location.href = 'index.html';
+
+// العناصر
+const chatBox = document.getElementById('chatBox');
+const msgInput = document.getElementById('msgInput');
+const sendBtn = document.getElementById('sendBtn');
+const allUsersList = document.getElementById('allUsersList');
+const refreshBtn = document.getElementById('refreshBtn');
+const clearBtn = document.getElementById('clearBtn');
+const messageCount = document.getElementById('messageCount');
+
+// تحميل الرسائل العامة
+const loadMessages = async () => {
+  try {
+    const messages = await fetchData(API.public);
+    renderMessages(messages);
+  } catch (error) {
+    showError('فشل تحميل الرسائل: ' + error.message);
+  }
+};
+
+// عرض الرسائل
+const renderMessages = (messages) => {
+  const welcomeMsg = document.querySelector('.welcome-message');
+  if (welcomeMsg) welcomeMsg.remove();
+  
+  chatBox.innerHTML = '';
+  
+  if (messages.length === 0) {
+    const noMessages = document.createElement('div');
+    noMessages.className = 'system-message';
+    noMessages.textContent = 'لا توجد رسائل بعد، كن أول من يبدأ المحادثة!';
+    chatBox.appendChild(noMessages);
+    return;
+  }
+  
+  messages.forEach(msg => {
+    chatBox.appendChild(renderMessage(msg));
+  });
+  
+  chatBox.scrollTop = chatBox.scrollHeight;
+  messageCount.textContent = `${messages.length} رسالة`;
+};
+
+// إرسال رسالة
+const sendMessage = async () => {
+  const content = msgInput.value.trim();
+  if (!content) return;
+  
+  try {
+    const tempMessage = renderMessage({
+      sender: user,
+      content: content,
+      timestamp: new Date().toISOString(),
+      status: 'sending'
+    });
+    chatBox.appendChild(tempMessage);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    
+    sendSocketMessage({
+      type: 'message',
+      sender: user,
+      content: content,
+      timestamp: new Date().toISOString()
+    });
+    
+    await fetchData(API.send, {
+      method: 'POST',
+      body: JSON.stringify({ 
+        sender: user, 
+        content 
+      })
+    });
+    
+    msgInput.value = '';
+    msgInput.focus();
+  } catch (error) {
+    showError('فشل إرسال الرسالة: ' + error.message);
+    const statusEl = tempMessage.querySelector('.message-status');
+    if (statusEl) {
+      statusEl.innerHTML = '<i class="fas fa-times"></i> فشل الإرسال';
+    }
+  }
+};
+
+// عرض الرسالة
+const renderMessage = (msg) => {
+  const messageEl = document.createElement('div');
+  const isSent = msg.sender === user;
+  
+  messageEl.className = `message ${isSent ? 'sent' : 'received'}`;
+  
+  let statusHtml = '';
+  if (isSent) {
+    if (msg.status === 'sending') {
+      statusHtml = '<div class="message-status"><i class="fas fa-sync fa-spin"></i> جاري الإرسال</div>';
+    } else {
+      statusHtml = '<div class="message-status"><i class="fas fa-check"></i> تم الإرسال</div>';
+    }
+  }
+  
+  messageEl.innerHTML = `
+    <div class="message-header">
+      <span class="sender-name">${msg.sender}</span>
+      <span class="message-time">${formatDateTime(msg.timestamp)}</span>
+    </div>
+    <div class="message-content">${msg.content}</div>
+    ${statusHtml}
+  `;
+  
+  return messageEl;
+};
+
+// تحديث حالة المستخدمين
+const updateUserStatuses = (onlineUsers) => {
+  document.querySelectorAll('.user-item').forEach(item => {
+    const username = item.dataset.username;
+    const statusElement = item.querySelector('.user-status-indicator');
+    
+    if (statusElement) {
+      statusElement.className = 'user-status-indicator';
+      
+      if (onlineUsers.includes(username)) {
+        statusElement.classList.add('status-online');
+        statusElement.title = 'نشط الآن';
+      } else {
+        statusElement.classList.add('status-offline');
+        statusElement.title = 'غير متصل';
+      }
+    }
+  });
+};
+
+// تهيئة الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+  initUserSidebar();
+  setupLogout();
+  loadMessages();
+  loadUsers();
+  
+  refreshBtn.addEventListener('click', loadMessages);
+  clearBtn.addEventListener('click', clearChat);
+  
+  connectWebSocket();
+  
+  // استقبال الرسائل الجديدة
+  window.addEventListener('newMessage', (event) => {
+    const message = event.detail;
+    if (message.receiver) return;
+    
+    const newMessage = renderMessage({
+      ...message,
+      status: 'delivered'
+    });
+    chatBox.appendChild(newMessage);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    
+    const currentCount = parseInt(messageCount.textContent) || 0;
+    messageCount.textContent = `${currentCount + 1} رسالة`;
+  });
+  
+  // تحديث حالة المستخدمين
+  window.addEventListener('userStatusUpdate', (event) => {
+    updateUserStatuses(event.detail);
+  });
+  
+  // إدارة حالة الكتابة
+  msgInput.addEventListener('input', () => {
+    if (msgInput.value.trim() !== '') {
+      sendTypingStatus(true, 'public');
+    } else {
+      sendTypingStatus(false, 'public');
+    }
+  });
+});
+
+// تحميل المستخدمين
+const loadUsers = async () => {
+  try {
+    const users = await fetchData(API.users);
+    allUsersList.innerHTML = '';
+    
+    for (const username of users) {
+      if (username !== user) {
+        const userElement = createUserElement(username);
+        
+        const statusElement = document.createElement('span');
+        statusElement.className = 'user-status-indicator status-offline';
+        statusElement.title = 'غير متصل';
+        userElement.querySelector('.username').appendChild(statusElement);
+        
+        allUsersList.appendChild(userElement);
+      }
+    }
+  } catch (error) {
+    showError('فشل تحميل المستخدمين: ' + error.message);
+  }
+};
+
+// مسح المحادثة
+const clearChat = async () => {
+  if (!confirm('هل تريد مسح جميع الرسائل في الشات العام؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+  
+  try {
+    chatBox.innerHTML = '<div class="system-message">جاري مسح المحادثة...</div>';
+    
+    setTimeout(() => {
+      loadMessages();
+      showError('تم مسح المحادثة بنجاح');
+    }, 1000);
+  } catch (error) {
+    showError('فشل مسح المحادثة: ' + error.message);
+  }
+};
+
+// أحداث الأزرار
+sendBtn.addEventListener('click', sendMessage);
+msgInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') sendMessage();
+});

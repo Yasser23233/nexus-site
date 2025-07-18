@@ -1,0 +1,214 @@
+/* الرسوم المتحركة */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typing {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px #FFD700;
+    text-shadow: 0 0 5px #FFD700;
+  }
+  50% {
+    box-shadow: 0 0 20px #FFD700;
+    text-shadow: 0 0 10px #FFD700;
+  }
+  100% {
+    box-shadow: 0 0 5px #FFD700;
+    text-shadow: 0 0 5px #FFD700;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes neon {
+  0% {
+    text-shadow: 0 0 5px #FFD700, 0 0 10px #B8860B;
+  }
+  100% {
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #B8860B;
+  }
+}
+
+/* مؤشر الكتابة */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  background: rgba(30, 30, 30, 0.8);
+  border-radius: 20px;
+  max-width: 160px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #aaa;
+  align-self: flex-start;
+  animation: pulse 1.5s infinite;
+}
+
+.typing-indicator span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #00cc66;
+  border-radius: 50%;
+  margin: 0 2px;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* الإشعارات */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(20, 20, 20, 0.95);
+  border: 1px solid #B8860B;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  z-index: 1000;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  transition: opacity 0.5s;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.notification-avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(to bottom, #FFD700, #B8860B);
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.notification-sender {
+  font-weight: bold;
+  color: #FFD700;
+  margin-bottom: 3px;
+}
+
+.notification-text {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+/* تأثير التوهج للعناصر النشطة */
+.glow-on-hover:hover {
+  animation: glow 1.5s infinite;
+}
+
+/* تأثير النبض للزر */
+.send-button:not(:disabled) {
+  animation: pulse 2s infinite;
+}
+
+/* رسوم متحركة للرسائل */
+.message {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* تأثير النيون للنص */
+.neon-text {
+  animation: neon 1.5s alternate infinite;
+}
+
+/* تأثير النبض للشعار */
+@keyframes logo-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  }
+}
+
+.login-logo {
+  animation: logo-pulse 3s infinite;
+}
+
+/* رسوم متحركة جديدة */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  40% {transform: translateY(-10px);}
+  60% {transform: translateY(-5px);}
+}
+
+@keyframes float {
+  0% {transform: translateY(0px);}
+  50% {transform: translateY(-5px);}
+  100% {transform: translateY(0px);}
+}
+
+@keyframes ripple {
+  0% {transform: scale(1); opacity: 1;}
+  100% {transform: scale(2); opacity: 0;}
+}
+
+/* تأثيرات للعناصر التفاعلية */
+.header-action:hover {
+  animation: bounce 0.5s;
+}
+
+.user-item:hover {
+  animation: float 0.3s ease-in-out;
+}
+
+/* تأثيرات لرسائل الوصول */
+.message.sent .message-status {
+  animation: fadeIn 0.3s;
+}
+
+/* تأثيرات لزر الإرسال */
+.send-button:active {
+  animation: ripple 0.6s linear;
+}

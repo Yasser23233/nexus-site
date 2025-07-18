@@ -1,0 +1,148 @@
+
+:root {
+  --gold: #FFD700;
+  --dark-gold: #B8860B;
+  --black: #000;
+  --dark-gray: #121212;
+  --darker-gray: #0a0a0a;
+  --hacker-green: #00FF00;
+  --error-red: #ff5555;
+  --terminal-green: #00cc66;
+}
+
+.hacker-theme {
+  background: radial-gradient(ellipse at center, var(--darker-gray) 0%, var(--black) 100%);
+  color: var(--gold);
+  min-height: 100vh;
+}
+
+.glow-text {
+  text-shadow: 0 0 8px var(--gold), 0 0 16px rgba(255, 215, 0, 0.4);
+}
+
+.glow-border {
+  border: 1px solid var(--dark-gold);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.glow-button {
+  background: linear-gradient(to bottom, var(--dark-gold), #8B7500);
+  border: 1px solid var(--gold);
+  color: white;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.glow-button:hover {
+  background: linear-gradient(to bottom, var(--gold), var(--dark-gold));
+  box-shadow: 0 0 15px var(--gold);
+  transform: translateY(-2px);
+}
+
+.terminal-text {
+  color: var(--terminal-green);
+  text-shadow: 0 0 5px rgba(0, 204, 102, 0.5);
+}
+
+.message-box {
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--dark-gold);
+  border-radius: 5px;
+  height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dark-gold) var(--black);
+}
+
+.message-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.message-box::-webkit-scrollbar-thumb {
+  background-color: var(--dark-gold);
+  border-radius: 4px;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-message {
+  background: rgba(255, 85, 85, 0.15);
+  border: 1px solid var(--error-red);
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-top: 15px;
+  display: none;
+}
+
+.input-box input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--gold);
+}
+
+.contact-item:hover {
+  background: rgba(255, 215, 0, 0.08);
+}
+
+/* تأثيرات النيون */
+.neon-border {
+  position: relative;
+}
+
+.neon-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ffd700, #b8860b, #ffd700, #b8860b);
+  background-size: 400%;
+  border-radius: inherit;
+  z-index: -1;
+  animation: neon-glow 3s linear infinite;
+}
+
+@keyframes neon-glow {
+  0% {
+    background-position: 0 0;
+    opacity: 0.8;
+  }
+  50% {
+    background-position: 400% 0;
+    opacity: 1;
+  }
+  100% {
+    background-position: 0 0;
+    opacity: 0.8;
+  }
+}
+
+/* تأثيرات الكتابة */
+.typewriter {
+  overflow: hidden;
+  border-right: 0.15em solid var(--gold);
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: 0.15em;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: var(--gold) }
+}
+
