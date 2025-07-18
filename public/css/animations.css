@@ -24,16 +24,16 @@
 
 @keyframes glow {
   0% {
-    box-shadow: 0 0 5px #FFD700;
-    text-shadow: 0 0 5px #FFD700;
+    box-shadow: 0 0 5px var(--gold);
+    text-shadow: 0 0 5px var(--gold);
   }
   50% {
-    box-shadow: 0 0 20px #FFD700;
-    text-shadow: 0 0 10px #FFD700;
+    box-shadow: 0 0 20px var(--gold);
+    text-shadow: 0 0 10px var(--gold);
   }
   100% {
-    box-shadow: 0 0 5px #FFD700;
-    text-shadow: 0 0 5px #FFD700;
+    box-shadow: 0 0 5px var(--gold);
+    text-shadow: 0 0 5px var(--gold);
   }
 }
 
@@ -54,10 +54,10 @@
 
 @keyframes neon {
   0% {
-    text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700;
+    text-shadow: 0 0 5px var(--gold), 0 0 10px var(--gold);
   }
   100% {
-    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
+    text-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold);
   }
 }
 
@@ -80,7 +80,7 @@
   display: inline-block;
   width: 8px;
   height: 8px;
-  background: #FFD700;
+  background: var(--gold);
   border-radius: 50%;
   margin: 0 2px;
   animation: typing 1.4s infinite ease-in-out;
@@ -100,7 +100,7 @@
   bottom: 20px;
   right: 20px;
   background: rgba(20, 20, 20, 0.95);
-  border: 1px solid #FFD700;
+  border: 1px solid var(--gold);
   border-radius: 8px;
   padding: 15px;
   display: flex;
@@ -115,7 +115,7 @@
 .notification-avatar {
   width: 40px;
   height: 40px;
-  background: linear-gradient(to bottom, #FFD700, #FFD700);
+  background: linear-gradient(to bottom, var(--gold), var(--gold));
   color: #000;
   border-radius: 50%;
   display: flex;
@@ -127,7 +127,7 @@
 
 .notification-sender {
   font-weight: bold;
-  color: #FFD700;
+  color: var(--gold);
   margin-bottom: 3px;
 }
 
@@ -160,15 +160,15 @@
 @keyframes logo-pulse {
   0% {
     transform: scale(1);
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 10px rgba(var(--gold-rgb), 0.5);
   }
   50% {
     transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    box-shadow: 0 0 20px rgba(var(--gold-rgb), 0.8);
   }
   100% {
     transform: scale(1);
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 10px rgba(var(--gold-rgb), 0.5);
   }
 }
 

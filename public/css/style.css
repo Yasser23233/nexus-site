@@ -35,7 +35,7 @@ body.light-theme .main-content {
   display: flex;
   flex-direction: column;
   padding: 20px 0;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+  box-shadow: 0 0 15px rgba(var(--gold-rgb), 0.1);
   transform: translateX(0);
   transition: transform 0.3s ease;
 }
@@ -65,13 +65,13 @@ body.light-theme .main-content {
 
 .toggle-sidebar {
   cursor: pointer;
-  color: #FFD700;
+  color: var(--gold);
 }
 
 .logo {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #FFD700, #FFD700);
+  background: linear-gradient(135deg, var(--gold), var(--gold));
   color: #000;
   border-radius: 50%;
   display: flex;
@@ -83,7 +83,7 @@ body.light-theme .main-content {
 }
 
 .app-name {
-  color: #FFD700;
+  color: var(--gold);
   font-size: 1.5rem;
 }
 
@@ -100,7 +100,7 @@ body.light-theme .main-content {
 .avatar {
   width: 40px;
   height: 40px;
-  background: linear-gradient(to bottom, #FFD700, #FFD700);
+  background: linear-gradient(to bottom, var(--gold), var(--gold));
   color: #000;
   border-radius: 50%;
   display: flex;
@@ -113,11 +113,11 @@ body.light-theme .main-content {
 
 .username {
   font-weight: bold;
-  color: #FFD700;
+  color: var(--gold);
 }
 
 .admin-user {
-  border-bottom: 1px solid #FFD700;
+  border-bottom: 1px solid var(--gold);
 }
 
 .last-active {
@@ -145,14 +145,14 @@ body.light-theme .main-content {
 }
 
 .nav-item:hover {
-  background: rgba(255, 215, 0, 0.1);
-  color: #FFD700;
+  background: rgba(var(--gold-rgb), 0.1);
+  color: var(--gold);
 }
 
 .nav-item.active {
-  background: rgba(255, 215, 0, 0.2);
-  color: #FFD700;
-  border-left: 3px solid #FFD700;
+  background: rgba(var(--gold-rgb), 0.2);
+  color: var(--gold);
+  border-left: 3px solid var(--gold);
 }
 
 .nav-item .icon {
@@ -172,7 +172,7 @@ body.light-theme .main-content {
 }
 
 .section-title {
-  color: #FFD700;
+  color: var(--gold);
   font-size: 1rem;
 }
 
@@ -183,7 +183,7 @@ body.light-theme .main-content {
 }
 
 .add-contact:hover {
-  color: #FFD700;
+  color: var(--gold);
 }
 
 .sidebar-section {
@@ -208,7 +208,7 @@ body.light-theme .main-content {
 }
 
 .user-item:hover, .contact-item:hover {
-  background: rgba(255, 215, 0, 0.1);
+  background: rgba(var(--gold-rgb), 0.1);
 }
 
 .user-item .avatar, .contact-item .avatar {
@@ -264,7 +264,7 @@ body.light-theme .main-content {
 }
 
 .chat-title {
-  color: #FFD700;
+  color: var(--gold);
   font-size: 1.4rem;
   margin-bottom: 5px;
 }
@@ -288,13 +288,13 @@ body.light-theme .main-content {
   background: rgba(30, 30, 30, 0.8);
   border: 1px solid #333;
   border-radius: 50%;
-  color: #FFD700;
+  color: var(--gold);
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .header-action:hover {
-  background: rgba(255, 215, 0, 0.1);
+  background: rgba(var(--gold-rgb), 0.1);
   transform: scale(1.15);
 }
 
@@ -309,7 +309,7 @@ body.light-theme .main-content {
 }
 
 .recipient-name {
-  color: #FFD700;
+  color: var(--gold);
   font-size: 1.3rem;
 }
 
@@ -350,7 +350,7 @@ body.light-theme .main-content {
   border-bottom-right-radius: 0;
   background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.9));
   border: 1px solid rgba(51, 51, 51, 0.5);
-  border-left: 3px solid #FFD700;
+  border-left: 3px solid var(--gold);
 }
 
 .message.sent {
@@ -358,17 +358,17 @@ body.light-theme .main-content {
   border-bottom-left-radius: 0;
   background: linear-gradient(135deg, rgba(40, 40, 40, 0.8), rgba(20, 20, 20, 0.9));
   border: 1px solid rgba(80, 80, 80, 0.5);
-  border-right: 3px solid #FFD700;
+  border-right: 3px solid var(--gold);
 }
 
 .message.received:hover {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+  box-shadow: 0 5px 15px rgba(var(--gold-rgb), 0.2);
 }
 
 .message.sent:hover {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+  box-shadow: 0 5px 15px rgba(var(--gold-rgb), 0.2);
 }
 
 .message-header {
@@ -379,7 +379,7 @@ body.light-theme .main-content {
 
 .sender-name {
   font-weight: bold;
-  color: #FFD700;
+  color: var(--gold);
 }
 
 .message-time {
@@ -422,8 +422,8 @@ body.light-theme .main-content {
 }
 
 .message-input:focus {
-  border-color: #FFD700;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(var(--gold-rgb), 0.3);
 }
 
 .input-actions {
@@ -442,7 +442,7 @@ body.light-theme .main-content {
 }
 
 .input-actions i:hover {
-  color: #FFD700;
+  color: var(--gold);
 }
 
 #emojiPicker {
@@ -470,7 +470,7 @@ body.light-theme .main-content {
 .send-button:hover {
   background: var(--gold);
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 10px rgba(var(--gold-rgb), 0.6);
 }
 
 .send-button:disabled {
@@ -496,24 +496,24 @@ body.light-theme .main-content {
 }
 
 .chat-box::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #FFD700, #FFD700);
+  background: linear-gradient(to bottom, var(--gold), var(--gold));
   border-radius: 10px;
   border: 2px solid rgba(0,0,0,0.2);
 }
 
 .chat-box::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #FFD700, #FFD700);
+  background: linear-gradient(to bottom, var(--gold), var(--gold));
 }
 
 /* التحديد النشط */
 .contact-item.active {
-  background: rgba(255, 215, 0, 0.15);
-  border-left: 2px solid #FFD700;
+  background: rgba(var(--gold-rgb), 0.15);
+  border-left: 2px solid var(--gold);
 }
 
 /* مؤشرات الرسائل الجديدة */
 .new-message-indicator {
-  background: #FFD700;
+  background: var(--gold);
   color: #000;
   font-size: 0.7rem;
   padding: 2px 8px;
@@ -535,7 +535,7 @@ body.light-theme .main-content {
 
 /* تأثيرات التوهج */
 .glow-on-hover:hover {
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 10px rgba(var(--gold-rgb), 0.5);
 }
 
 /* مؤشر حالة المستخدم */
@@ -548,8 +548,8 @@ body.light-theme .main-content {
 }
 
 .status-online {
-  background-color: #FFD700;
-  box-shadow: 0 0 5px #FFD700;
+  background-color: var(--gold);
+  box-shadow: 0 0 5px var(--gold);
 }
 
 .status-offline {
@@ -575,9 +575,9 @@ body.light-theme .main-content {
 /* مؤشر التحميل */
 .loading-spinner {
   display: inline-block;
-  border: 2px solid rgba(255, 215, 0, 0.3);
+  border: 2px solid rgba(var(--gold-rgb), 0.3);
   border-radius: 50%;
-  border-top: 2px solid #FFD700;
+  border-top: 2px solid var(--gold);
   width: 16px;
   height: 16px;
   animation: spin 1s linear infinite;
