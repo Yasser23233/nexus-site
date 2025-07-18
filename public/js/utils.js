@@ -71,11 +71,13 @@ export const createUserElement = (username) => {
   const userEl = document.createElement('div');
   userEl.className = 'user-item';
   userEl.dataset.username = username;
-  
+
+  const badge = username === 'ياسر' ? '👑' : '⭐';
+
   userEl.innerHTML = `
     <div class="avatar">${username.charAt(0)}</div>
     <div class="contact-info">
-      <span class="username">${username}</span>
+      <span class="username">${username} <span class="user-badge">${badge}</span></span>
       <div class="dm-message-time">آخر نشاط: غير معروف</div>
     </div>
   `;

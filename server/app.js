@@ -29,6 +29,8 @@ const wss = new WebSocket.Server({ server });
 
 // تتبع المستخدمين المتصلين
 const connectedUsers = new Map();
+// حفظ آخر نشاط لكل مستخدم
+const lastActiveMap = new Map();
 
 wss.on('connection', (ws) => {
   console.log('اتصال جديد بـ WebSocket');
@@ -40,12 +42,14 @@ wss.on('connection', (ws) => {
       // ربط المستخدم بـ WebSocket
       if (data.type === 'register' && data.user) {
         connectedUsers.set(data.user, ws);
+        lastActiveMap.set(data.user, new Date().toISOString());
         broadcastUserStatus();
         console.log(`المستخدم ${data.user} متصل الآن`);
       }
       
       // إعادة إرسال الرسالة لجميع العملاء
       if (data.type === 'message') {
+        lastActiveMap.set(data.sender, new Date().toISOString());
         broadcast(data);
       }
       
@@ -73,6 +77,7 @@ wss.on('connection', (ws) => {
     connectedUsers.forEach((value, key) => {
       if (value === ws) {
         connectedUsers.delete(key);
+        lastActiveMap.set(key, new Date().toISOString());
         broadcastUserStatus();
         console.log(`المستخدم ${key} انقطع عن الاتصال`);
       }
@@ -232,10 +237,11 @@ app.get('/api/messages/dm/:user1/:user2', (req, res) => {
 app.get('/api/status/:username', (req, res) => {
   const { username } = req.params;
   const isOnline = connectedUsers.has(username);
+  const lastActive = lastActiveMap.get(username) || null;
 
   res.json({
     status: isOnline ? 'online' : 'offline',
-    lastActive: new Date().toISOString()
+    lastActive
   });
 });
 
