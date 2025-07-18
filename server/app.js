@@ -2,7 +2,10 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const Database = require('better-sqlite3');
+let Database;
+if (process.env.NODE_ENV !== 'test') {
+  Database = require('better-sqlite3');
+}
 const fs = require('fs');
 const compression = require('compression');
 const WebSocket = require('ws');
@@ -12,6 +15,8 @@ const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
   console.log(`✅ الخادم يعمل → http://localhost:${PORT}`);
 });
+
+module.exports = { app, server };
 
 // إنشاء خادم WebSocket
 const wss = new WebSocket.Server({ server });
@@ -132,20 +137,23 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// قاعدة البيانات
-const dbPath = path.join(__dirname, '..', 'database', 'nexus.db');
-const db = new Database(dbPath);
+// قاعدة البيانات (يتم تخطيها في بيئة الاختبار)
+let db;
+if (Database) {
+  const dbPath = path.join(__dirname, '..', 'database', 'nexus.db');
+  db = new Database(dbPath);
 
-// إنشاء الجداول
-db.prepare(`
-  CREATE TABLE IF NOT EXISTS messages (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    sender TEXT NOT NULL,
-    receiver TEXT,
-    content TEXT NOT NULL,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-  )
-`).run();
+  // إنشاء الجداول
+  db.prepare(`
+    CREATE TABLE IF NOT EXISTS messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      sender TEXT NOT NULL,
+      receiver TEXT,
+      content TEXT NOT NULL,
+      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `).run();
+}
 
 // جلب المستخدمين من ملف JSON
 const getUsers = () => {
