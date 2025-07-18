@@ -140,9 +140,10 @@ const renderDMs = (messages) => {
 const sendDM = async () => {
   const content = dmInput.value.trim();
   if (!content || !currentReceiver) return;
-  
+
+  let tempMessage;
   try {
-    const tempMessage = renderMessage({
+    tempMessage = renderMessage({
       sender: user,
       content: content,
       timestamp: new Date().toISOString(),
@@ -173,9 +174,11 @@ const sendDM = async () => {
     dmInput.focus();
   } catch (error) {
     showError('فشل إرسال الرسالة: ' + error.message);
-    const statusEl = tempMessage.querySelector('.message-status');
-    if (statusEl) {
-      statusEl.innerHTML = '<i class="fas fa-times"></i> فشل الإرسال';
+    if (tempMessage) {
+      const statusEl = tempMessage.querySelector('.message-status');
+      if (statusEl) {
+        statusEl.innerHTML = '<i class="fas fa-times"></i> فشل الإرسال';
+      }
     }
   }
 };
