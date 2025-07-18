@@ -10,7 +10,10 @@ import {
   checkUserStatus,
   connectWebSocket,
   sendSocketMessage,
-  sendTypingStatus
+  sendTypingStatus,
+  setupSidebarToggle,
+  setupThemeToggle,
+  uploadImage
 } from './utils.js';
 
 // التحقق من تسجيل الدخول
@@ -24,6 +27,10 @@ const allUsersList = document.getElementById('allUsersList');
 const refreshBtn = document.getElementById('refreshBtn');
 const clearBtn = document.getElementById('clearBtn');
 const messageCount = document.getElementById('messageCount');
+const imageInput = document.getElementById('imageInput');
+const attachmentIcon = document.querySelector('.attachment-icon');
+const emojiIcon = document.querySelector('.emoji-icon');
+const emojiPicker = document.getElementById('emojiPicker');
 
 // تحميل الرسائل العامة
 const loadMessages = async () => {
@@ -59,8 +66,8 @@ const renderMessages = (messages) => {
 };
 
 // إرسال رسالة
-const sendMessage = async () => {
-  const content = msgInput.value.trim();
+const sendMessage = async (customContent) => {
+  const content = customContent || msgInput.value.trim();
   if (!content) return;
 
   let tempMessage;
@@ -154,6 +161,8 @@ const updateUserStatuses = (onlineUsers) => {
 document.addEventListener('DOMContentLoaded', () => {
   initUserSidebar();
   setupLogout();
+  setupSidebarToggle();
+  setupThemeToggle();
   loadMessages();
   loadUsers();
   
@@ -190,6 +199,25 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       sendTypingStatus(false, 'public');
     }
+  });
+
+  attachmentIcon.addEventListener('click', () => imageInput.click());
+  imageInput.addEventListener('change', async () => {
+    const file = imageInput.files[0];
+    if (!file) return;
+    try {
+      const { url } = await uploadImage(file);
+      sendMessage(`<img src="${url}" class="chat-image">`);
+    } catch (err) {
+      showError('فشل رفع الصورة');
+    }
+  });
+
+  emojiIcon.addEventListener('click', () => {
+    emojiPicker.style.display = emojiPicker.style.display === 'none' ? 'block' : 'none';
+  });
+  emojiPicker.addEventListener('emoji-click', (e) => {
+    msgInput.value += e.detail.unicode;
   });
 });
 

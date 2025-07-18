@@ -105,6 +105,30 @@ export const setupLogout = () => {
   }
 };
 
+// تهيئة زر طي الشريط الجانبي
+export const setupSidebarToggle = () => {
+  const toggleBtn = document.getElementById('toggleSidebar');
+  const sidebar = document.querySelector('.sidebar');
+  if (!toggleBtn || !sidebar) return;
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+  });
+};
+
+// تهيئة زر تبديل المظهر
+export const setupThemeToggle = () => {
+  const toggleBtn = document.getElementById('themeToggle');
+  if (!toggleBtn) return;
+  const body = document.body;
+  if (localStorage.getItem('theme') === 'light') {
+    body.classList.add('light-theme');
+  }
+  toggleBtn.addEventListener('click', () => {
+    body.classList.toggle('light-theme');
+    localStorage.setItem('theme', body.classList.contains('light-theme') ? 'light' : 'dark');
+  });
+};
+
 // إدارة الحالة الكاملة للشاشة
 export const setupFullscreenToggle = () => {
   const fullscreenBtn = document.getElementById('fullscreenBtn');
@@ -259,6 +283,25 @@ export const sendTypingStatus = (isTyping, recipient) => {
       isTyping: isTyping
     }));
   }
+};
+
+// تحويل ملف إلى Base64
+const fileToDataUrl = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
+
+// رفع صورة وإرجاع الرابط
+export const uploadImage = async (file) => {
+  const dataUrl = await fileToDataUrl(file);
+  return fetchData('/api/upload', {
+    method: 'POST',
+    body: JSON.stringify({ data: dataUrl })
+  });
 };
 
 // تحديث حالة الاتصال في الواجهة
