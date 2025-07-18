@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const Database = require('better-sqlite3');
 const fs = require('fs');
 const compression = require('compression');
@@ -98,8 +97,6 @@ function broadcastUserStatus() {
 
 // تخزين الرسالة العامة
 function storeMessage(data) {
-  const dbPath = path.join(__dirname, '..', 'database', 'nexus.db');
-  const db = new Database(dbPath);
   
   try {
     db.prepare(`
@@ -113,8 +110,6 @@ function storeMessage(data) {
 
 // تخزين الرسالة الخاصة
 function storePrivateMessage(data) {
-  const dbPath = path.join(__dirname, '..', 'database', 'nexus.db');
-  const db = new Database(dbPath);
   
   try {
     db.prepare(`
@@ -129,11 +124,11 @@ function storePrivateMessage(data) {
 // Middleware
 app.use(cors());
 app.use(compression());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // قاعدة البيانات
-const dbPath = path.join(__dirname, '..', 'database', 'nexus.db');
+const dbPath = process.env.DB_PATH || path.join(__dirname, '..', 'database', 'nexus.db');
 const db = new Database(dbPath);
 
 // إنشاء الجداول
