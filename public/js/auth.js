@@ -119,10 +119,10 @@ window.addEventListener('load', () => {
       0% {
         opacity: 0;
         transform: translateY(20px);
-        box-shadow: 0 0 0 rgba(255, 215, 0, 0);
+        box-shadow: 0 0 0 rgba(79, 195, 247, 0);
       }
       50% {
-        box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        box-shadow: 0 0 30px rgba(79, 195, 247, 0.5);
       }
       100% {
         opacity: 1;
