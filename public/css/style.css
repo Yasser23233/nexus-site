@@ -448,7 +448,7 @@ body.light-theme .main-content {
 }
 
 .send-button {
-  background: linear-gradient(to bottom, #4FC3F7, #0288D1);
+  background: linear-gradient(to bottom, var(--gold), var(--dark-gold));
   color: #000;
   border: none;
   border-radius: 20px;
@@ -462,7 +462,7 @@ body.light-theme .main-content {
 }
 
 .send-button:hover {
-  background: linear-gradient(to bottom, #7dd8ff, #0277bd);
+  background: linear-gradient(to bottom, var(--gold), var(--dark-gold));
   transform: translateY(-3px) scale(1.05);
   box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
 }
@@ -514,6 +514,20 @@ body.light-theme .main-content {
   border-radius: 10px;
   margin-right: 5px;
   font-weight: bold;
+}
+
+.new-message {
+  border-color: var(--gold);
+  animation: blinkNew 1s ease-in-out 3;
+}
+
+.user-badge {
+  font-size: 0.75rem;
+}
+
+@keyframes blinkNew {
+  0%, 100% { background-color: rgba(212, 175, 55, 0.1); }
+  50% { background-color: rgba(212, 175, 55, 0.3); }
 }
 
 /* تأثيرات التوهج */

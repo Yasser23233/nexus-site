@@ -12,7 +12,6 @@ import {
   sendSocketMessage,
   sendTypingStatus,
   setupSidebarToggle,
-  setupThemeToggle,
   uploadImage
 } from './utils.js';
 
@@ -29,8 +28,10 @@ const recipientAvatar = document.getElementById('recipientAvatar');
 const recipientStatus = document.getElementById('recipientStatus');
 const dmSearchInput = document.getElementById('dmSearchInput');
 const addContactBtn = document.getElementById('addContactBtn');
-const dmRefreshBtn = document.getElementById('dmRefreshBtn');
 const dmClearBtn = document.getElementById('dmClearBtn');
+if (user !== 'ياسر' && dmClearBtn) {
+  dmClearBtn.style.display = 'none';
+}
 const dmImageInput = document.getElementById('dmImageInput');
 const attachmentIcon = document.querySelector('.attachment-icon');
 const emojiIcon = document.querySelector('.emoji-icon');
@@ -211,7 +212,9 @@ const renderMessage = (msg) => {
       <span class="sender-name">${msg.sender}</span>
       <span class="message-time">${formatDateTime(msg.timestamp)}</span>
     </div>
-    <div class="message-content">${msg.content}</div>
+    <div class="message-content">${
+      typeof msg.content === 'object' ? JSON.stringify(msg.content) : msg.content
+    }</div>
     ${statusHtml}
   `;
   
@@ -221,6 +224,23 @@ const renderMessage = (msg) => {
 // تحديث حالة المستلم
 const updateRecipientStatus = (isOnline) => {
   recipientStatus.textContent = isOnline ? 'نشط الآن' : 'غير متصل';
+};
+
+const playNotification = () => {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = ctx.createOscillator();
+    oscillator.type = 'sine';
+    oscillator.frequency.value = 440;
+    oscillator.connect(ctx.destination);
+    oscillator.start();
+    setTimeout(() => {
+      oscillator.stop();
+      ctx.close();
+    }, 150);
+  } catch (e) {
+    console.error('Failed to play sound', e);
+  }
 };
 
 // البحث في جهات الاتصال
@@ -272,12 +292,14 @@ document.addEventListener('DOMContentLoaded', () => {
   initUserSidebar();
   setupLogout();
   setupSidebarToggle();
-  setupThemeToggle();
   loadUsers();
-  
+
   dmSearchInput.addEventListener('input', searchContacts);
-  dmRefreshBtn.addEventListener('click', loadDMs);
   dmClearBtn.addEventListener('click', clearDMChat);
+
+  setInterval(() => {
+    loadDMs();
+  }, 15000);
   
   connectWebSocket();
   
@@ -291,6 +313,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ...message,
         status: 'delivered'
       });
+      if (document.hidden) {
+        newMessage.classList.add('new-message');
+      }
+      playNotification();
       dmBox.appendChild(newMessage);
       dmBox.scrollTop = dmBox.scrollHeight;
     }

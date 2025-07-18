@@ -12,7 +12,6 @@ import {
   sendSocketMessage,
   sendTypingStatus,
   setupSidebarToggle,
-  setupThemeToggle,
   uploadImage
 } from './utils.js';
 
@@ -24,13 +23,17 @@ const chatBox = document.getElementById('chatBox');
 const msgInput = document.getElementById('msgInput');
 const sendBtn = document.getElementById('sendBtn');
 const allUsersList = document.getElementById('allUsersList');
-const refreshBtn = document.getElementById('refreshBtn');
 const clearBtn = document.getElementById('clearBtn');
+if (user !== 'ياسر' && clearBtn) {
+  clearBtn.style.display = 'none';
+}
 const messageCount = document.getElementById('messageCount');
 const imageInput = document.getElementById('imageInput');
 const attachmentIcon = document.querySelector('.attachment-icon');
 const emojiIcon = document.querySelector('.emoji-icon');
 const emojiPicker = document.getElementById('emojiPicker');
+
+let pendingMessage = null;
 
 // تحميل الرسائل العامة
 const loadMessages = async () => {
@@ -70,14 +73,14 @@ const sendMessage = async (customContent) => {
   const content = customContent || msgInput.value.trim();
   if (!content) return;
 
-  let tempMessage;
   try {
-    tempMessage = renderMessage({
+    const tempMessage = renderMessage({
       sender: user,
       content: content,
       timestamp: new Date().toISOString(),
       status: 'sending'
     });
+    pendingMessage = tempMessage;
     chatBox.appendChild(tempMessage);
     chatBox.scrollTop = chatBox.scrollHeight;
     
@@ -100,8 +103,8 @@ const sendMessage = async (customContent) => {
     msgInput.focus();
   } catch (error) {
     showError('فشل إرسال الرسالة: ' + error.message);
-    if (tempMessage) {
-      const statusEl = tempMessage.querySelector('.message-status');
+    if (pendingMessage) {
+      const statusEl = pendingMessage.querySelector('.message-status');
       if (statusEl) {
         statusEl.innerHTML = '<i class="fas fa-times"></i> فشل الإرسال';
       }
@@ -130,7 +133,9 @@ const renderMessage = (msg) => {
       <span class="sender-name">${msg.sender}</span>
       <span class="message-time">${formatDateTime(msg.timestamp)}</span>
     </div>
-    <div class="message-content">${msg.content}</div>
+    <div class="message-content">${
+      typeof msg.content === 'object' ? JSON.stringify(msg.content) : msg.content
+    }</div>
     ${statusHtml}
   `;
   
@@ -157,16 +162,35 @@ const updateUserStatuses = (onlineUsers) => {
   });
 };
 
+const playNotification = () => {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = ctx.createOscillator();
+    oscillator.type = 'sine';
+    oscillator.frequency.value = 440;
+    oscillator.connect(ctx.destination);
+    oscillator.start();
+    setTimeout(() => {
+      oscillator.stop();
+      ctx.close();
+    }, 150);
+  } catch (e) {
+    console.error('Failed to play sound', e);
+  }
+};
+
 // تهيئة الصفحة
 document.addEventListener('DOMContentLoaded', () => {
   initUserSidebar();
   setupLogout();
   setupSidebarToggle();
-  setupThemeToggle();
   loadMessages();
   loadUsers();
-  
-  refreshBtn.addEventListener('click', loadMessages);
+
+  setInterval(() => {
+    loadMessages();
+  }, 15000);
+
   clearBtn.addEventListener('click', clearChat);
   
   connectWebSocket();
@@ -175,11 +199,19 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('newMessage', (event) => {
     const message = event.detail;
     if (message.receiver) return;
-    
+
     const newMessage = renderMessage({
       ...message,
       status: 'delivered'
     });
+    if (document.hidden) {
+      newMessage.classList.add('new-message');
+    }
+    if (pendingMessage) {
+      pendingMessage.remove();
+      pendingMessage = null;
+    }
+    playNotification();
     chatBox.appendChild(newMessage);
     chatBox.scrollTop = chatBox.scrollHeight;
     
