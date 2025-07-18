@@ -11,6 +11,7 @@ const usersRoutes = require('./routes/users');
 const messagesRoutes = require('./routes/messages');
 const uploadsRoutes = require('./routes/uploads');
 const statusRoutes = require('./routes/status');
+const featuresRoutes = require('./routes/features');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,6 +35,7 @@ app.use('/api/messages', messagesRoutes);
 app.use('/api/upload', uploadsRoutes);
 statusRoutes.setStatusFn(getUserStatus);
 app.use('/api/status', statusRoutes);
+app.use('/api/features', featuresRoutes);
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use((req, res) => {
