@@ -1,5 +1,6 @@
 :root {
-  --chat-bg: linear-gradient(135deg, #4b6cb7, #182848);
+  /* subtle black to dark gradient with gold accent circles */
+  --chat-bg: url('../assets/bg-chat.svg') center/cover no-repeat;
 }
 
 .app-container {

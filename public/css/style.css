@@ -37,11 +37,13 @@ body.light-theme .main-content {
   padding: 20px 0;
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
   transform: translateX(0);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, width 0.3s ease;
 }
 
 .sidebar.collapsed {
-  transform: translateX(-220px);
+  transform: translateX(220px);
+  width: 0;
+  overflow: hidden;
 }
 
 .sidebar.collapsed .app-name,
@@ -389,6 +391,7 @@ body.light-theme .main-content {
 
 .message-content {
   line-height: 1.5;
+  color: #ffffff;
 }
 
 .chat-image {
@@ -548,8 +551,8 @@ body.light-theme .main-content {
 }
 
 .status-online {
-  background-color: #FFD700;
-  box-shadow: 0 0 5px #FFD700;
+  background-color: #00ff00;
+  box-shadow: 0 0 5px #00ff00;
 }
 
 .status-offline {

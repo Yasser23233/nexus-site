@@ -196,8 +196,8 @@
 }
 
 .status-online {
-  background: rgba(255, 215, 0, 0.2);
-  color: #FFD700;
+  background: rgba(0, 255, 0, 0.2);
+  color: #00ff00;
 }
 
 .status-offline {
@@ -212,8 +212,8 @@
 }
 
 .status-online .status-indicator {
-  background: #FFD700;
-  box-shadow: 0 0 8px #FFD700;
+  background: #00ff00;
+  box-shadow: 0 0 8px #00ff00;
 }
 
 .status-offline .status-indicator {
