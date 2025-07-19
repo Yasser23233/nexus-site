@@ -2,48 +2,49 @@
   Base global styles
   هذه الملفات نقلت إلى مسار base/ لإعادة هيكلة مجلدات CSS
 */
+:root {
+  --gold: #FFD700;
+  --black: #0a0a0a;
+  --gray: #222;
+  --sidebar-width: 280px;
+  --transition: 0.25s cubic-bezier(.4,0,.2,1);
+  --font-main: 'Tajawal', 'Inter', 'Roboto', Arial, sans-serif;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Tajawal', sans-serif;
+  font-family: var(--font-main);
 }
 
 body {
-  /* more modern dark gradient */
+  font-family: var(--font-main);
+  font-size: 1.1rem;
   background: linear-gradient(135deg, #050505, #0d0d0d);
   color: #e0e0e0;
-  height: 100vh;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-body.light-theme {
-  background-color: #f0f0f0;
-  color: #000;
-}
-
-body.light-theme .main-content {
-  background: #fff;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  transition: background 0.5s;
 }
 
 .app-container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  transition: background 0.5s;
 }
 
 /* الشريط الجانبي */
 .sidebar {
-  width: 280px;
-  background: rgba(20, 20, 20, 0.6);
-  backdrop-filter: blur(8px);
+  width: var(--sidebar-width);
+  background: rgba(20, 20, 20, 0.7);
   border-left: 1px solid rgba(255, 215, 0, 0.15);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.08);
   display: flex;
   flex-direction: column;
-  padding: 20px 0;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
-  transform: translateX(0);
-  transition: transform 0.3s ease, width 0.3s ease;
+  padding: 24px 0;
+  transition: width var(--transition), background var(--transition);
 }
 
 .sidebar.collapsed {
@@ -60,6 +61,21 @@ body.light-theme .main-content {
 .sidebar.collapsed .users-list span,
 .sidebar.collapsed .contacts-list span {
   display: none;
+}
+
+.sidebar .nav-item,
+.sidebar .user-item,
+.sidebar .contact-item {
+  transition: background var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.sidebar .nav-item:hover,
+.sidebar .user-item:hover,
+.sidebar .contact-item:hover {
+  background: rgba(255, 215, 0, 0.08);
+  color: var(--gold);
+  transform: translateX(-4px) scale(1.03);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.08);
 }
 
 .sidebar-header {
@@ -415,30 +431,35 @@ body.light-theme .main-content {
 /* منطقة إدخال الرسائل */
 .message-input-area {
   display: flex;
-  padding: 15px 20px;
-  background: rgba(10, 10, 10, 0.9);
+  align-items: center;
+  background: rgba(20, 20, 20, 0.95);
   border-top: 1px solid #222;
+  padding: 18px 24px;
+  gap: 12px;
+  box-shadow: 0 -2px 12px rgba(255, 215, 0, 0.04);
+  transition: background var(--transition);
 }
 
 .input-container {
   flex: 1;
-  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(30, 30, 30, 0.85);
+  border-radius: 18px;
+  padding: 0 12px;
+  box-shadow: 0 1px 6px rgba(255, 215, 0, 0.04);
+  transition: box-shadow var(--transition);
 }
 
 .message-input {
-  width: 100%;
-  padding: 12px 50px 12px 15px;
-  background: rgba(30, 30, 30, 0.8);
-  border: 1px solid #333;
-  border-radius: 20px;
-  color: #e0e0e0;
-  font-size: 1rem;
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.1rem;
+  padding: 14px 0;
   outline: none;
-}
-
-.message-input:focus {
-  border-color: #FFD700;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+  transition: color var(--transition);
 }
 
 .input-actions {
@@ -451,13 +472,16 @@ body.light-theme .main-content {
 }
 
 .input-actions i {
-  color: #777;
+  font-size: 1.3rem;
+  color: #FFD700;
+  margin: 0 8px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: color var(--transition), transform var(--transition);
 }
 
 .input-actions i:hover {
-  color: #FFD700;
+  color: #fffbe6;
+  transform: scale(1.2);
 }
 
 #emojiPicker {
@@ -469,23 +493,24 @@ body.light-theme .main-content {
 }
 
 .send-button {
-  background: var(--gold);
-  color: #000;
+  border-radius: 24px;
+  padding: 12px 28px;
+  font-weight: 600;
+  font-size: 1rem;
+  background: linear-gradient(90deg, var(--gold) 60%, #b8860b 100%);
+  color: #111;
   border: none;
-  border-radius: 20px;
-  padding: 0 25px;
-  margin-right: 10px;
-  font-weight: bold;
+  box-shadow: 0 2px 12px rgba(255, 215, 0, 0.12);
   cursor: pointer;
   display: flex;
   align-items: center;
-  transition: all 0.3s;
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
 }
 
 .send-button:hover {
-  background: var(--gold);
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  background: linear-gradient(90deg, #ffe066 60%, var(--gold) 100%);
+  box-shadow: 0 4px 24px rgba(255, 215, 0, 0.18);
+  transform: translateY(-2px) scale(1.04);
 }
 
 .send-button:disabled {
@@ -621,4 +646,40 @@ body.light-theme .main-content {
 
 .setting-item button {
   padding: 10px 20px;
+}
+
+/* Add at the end for settings/profile */
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.profile-info .avatar {
+  width: 48px;
+  height: 48px;
+  font-size: 1.5rem;
+}
+.profile-email {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+.setting-item select,
+.setting-item input[type="checkbox"] {
+  margin-right: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  padding: 6px 12px;
+  border: 1px solid #FFD700;
+  background: #181818;
+  color: #FFD700;
+  transition: border var(--transition), box-shadow var(--transition);
+}
+.setting-item select:focus {
+  border-color: #fffbe6;
+  box-shadow: 0 0 6px #FFD700;
 }

@@ -35,6 +35,23 @@ function setupWebSocket(server) {
         if (data.type === 'typing') {
           broadcastTyping(wss, data);
         }
+
+        if (data.type === 'changeUsername' && data.oldName && data.newName) {
+          if (connectedUsers.has(data.oldName)) {
+            const wsRef = connectedUsers.get(data.oldName);
+            connectedUsers.delete(data.oldName);
+            connectedUsers.set(data.newName, wsRef);
+            lastActiveMap.set(data.newName, new Date().toISOString());
+            lastActiveMap.delete(data.oldName);
+            broadcastUserStatus(wss);
+            // Optionally notify all clients of the username change
+            broadcast(wss, {
+              type: 'usernameChanged',
+              oldName: data.oldName,
+              newName: data.newName
+            });
+          }
+        }
       } catch (err) {
         console.error('خطأ في رسالة WebSocket:', err);
       }

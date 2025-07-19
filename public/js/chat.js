@@ -139,14 +139,16 @@ const renderMessage = (msg) => {
 // تحديث حالة المستخدمين
 const renderOnlineUsers = () => {
   allUsersList.innerHTML = '';
-  onlineUsersCurrent.forEach(username => {
-    const userElement = createUserElement(username);
-    const statusElement = document.createElement('span');
-    statusElement.className = 'user-status-indicator status-online';
-    statusElement.title = 'نشط الآن';
-    userElement.querySelector('.username').appendChild(statusElement);
-    allUsersList.appendChild(userElement);
-  });
+  onlineUsersCurrent
+    .filter(username => username !== user)
+    .forEach(username => {
+      const userElement = createUserElement(username);
+      const statusElement = document.createElement('span');
+      statusElement.className = 'user-status-indicator status-online';
+      statusElement.title = 'نشط الآن';
+      userElement.querySelector('.username').appendChild(statusElement);
+      allUsersList.appendChild(userElement);
+    });
 };
 
 const updateUserStatuses = (onlineUsers) => {
@@ -155,6 +157,9 @@ const updateUserStatuses = (onlineUsers) => {
 };
 
 const playNotification = () => {
+  const settings = JSON.parse(localStorage.getItem('nexus_settings') || '{}');
+  if (settings.sound === false) return;
+
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = ctx.createOscillator();
