@@ -3,7 +3,7 @@ const { queries } = require('../database/db');
 const router = express.Router();
 
 // إرسال رسالة
-router.post('/send', (req, res) => {
+router.post('/send', async (req, res) => {
   const { sender, receiver, content } = req.body;
   
   if (!sender || !content) {
@@ -11,12 +11,12 @@ router.post('/send', (req, res) => {
   }
 
   try {
-    queries.insertMessage.run(sender, receiver || null, content);
-    
+    await queries.insertMessage(sender, receiver || null, content);
+
     // الحصول على الرسالة المضافة حديثاً
-    const newMessage = receiver ? 
-      queries.getPrivateMessages.get(sender, receiver, receiver, sender) :
-      queries.getPublicMessages.get();
+    const newMessage = receiver ?
+      await queries.getPrivateMessages.get(sender, receiver, receiver, sender) :
+      await queries.getPublicMessages.get();
     
     res.json({ 
       success: true,
@@ -33,9 +33,9 @@ router.post('/send', (req, res) => {
 });
 
 // جلب الرسائل العامة
-router.get('/public', (req, res) => {
+router.get('/public', async (req, res) => {
   try {
-    const messages = queries.getPublicMessages.all();
+    const messages = await queries.getPublicMessages.all();
     res.json(messages);
   } catch (error) {
     console.error('فشل تحميل الرسائل العامة:', error);
@@ -44,11 +44,11 @@ router.get('/public', (req, res) => {
 });
 
 // جلب الرسائل الخاصة
-router.get('/dm/:user1/:user2', (req, res) => {
+router.get('/dm/:user1/:user2', async (req, res) => {
   const { user1, user2 } = req.params;
-  
+
   try {
-    const messages = queries.getPrivateMessages.all(user1, user2, user2, user1);
+    const messages = await queries.getPrivateMessages.all(user1, user2, user2, user1);
     res.json(messages);
   } catch (error) {
     console.error('فشل تحميل الرسائل الخاصة:', error);

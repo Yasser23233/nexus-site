@@ -22,9 +22,13 @@ function setupWebSocket(server) {
           lastActiveMap.set(data.sender, new Date().toISOString());
           broadcast(wss, data);
           if (data.receiver) {
-            queries.insertMessage.run(data.sender, data.receiver, data.content);
+            queries
+              .insertMessage(data.sender, data.receiver, data.content)
+              .catch(err => console.error('DB insert error:', err));
           } else {
-            queries.insertMessage.run(data.sender, null, data.content);
+            queries
+              .insertMessage(data.sender, null, data.content)
+              .catch(err => console.error('DB insert error:', err));
           }
         }
 
