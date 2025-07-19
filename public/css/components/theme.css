@@ -1,4 +1,8 @@
 
+/*
+  Theme variables and reusable styles
+  تم نقل هذا الملف إلى components/ ضمن إعادة هيكلة المجلدات
+*/
 :root {
   --gold: #FFD700;
   --dark-gold: #b8860b;
