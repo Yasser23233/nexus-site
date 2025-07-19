@@ -1,4 +1,4 @@
-/*
+﻿/*
   Base global styles
   هذه الملفات نقلت إلى مسار base/ لإعادة هيكلة مجلدات CSS
 */
@@ -7,10 +7,8 @@
   --black: #0a0a0a;
   --gray: #222;
   --sidebar-width: 280px;
-  --transition: 0.35s cubic-bezier(.4,0,.2,1);
+  --transition: 0.25s cubic-bezier(.4,0,.2,1);
   --font-main: 'Tajawal', 'Inter', 'Roboto', Arial, sans-serif;
-  --focus-outline: 2px solid #FFD700;
-  --focus-shadow: 0 0 0 3px rgba(255,215,0,0.25);
 }
 
 * {
@@ -18,7 +16,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: var(--font-main);
-  scroll-behavior: smooth;
 }
 
 body {
@@ -47,17 +44,13 @@ body {
   display: flex;
   flex-direction: column;
   padding: 24px 0;
-  transition: width var(--transition), background var(--transition), transform var(--transition);
-  z-index: 10;
-  will-change: width, transform;
+  transition: width var(--transition), background var(--transition);
 }
 
 .sidebar.collapsed {
-  transform: translateX(-100%);
-  width: 0 !important;
-  min-width: 0 !important;
+  transform: translateX(-220px);
+  width: 0;
   overflow: hidden;
-  box-shadow: none;
 }
 
 .sidebar.collapsed .app-name,
@@ -79,17 +72,10 @@ body {
 .sidebar .nav-item:hover,
 .sidebar .user-item:hover,
 .sidebar .contact-item:hover {
-  background: rgba(255, 215, 0, 0.12);
+  background: rgba(255, 215, 0, 0.08);
   color: var(--gold);
-  transform: translateX(-4px) scale(1.04);
-  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.10);
-}
-
-.sidebar .nav-item:focus,
-.sidebar .user-item:focus,
-.sidebar .contact-item:focus {
-  outline: var(--focus-outline);
-  box-shadow: var(--focus-shadow);
+  transform: translateX(-4px) scale(1.03);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.08);
 }
 
 .sidebar-header {
@@ -104,15 +90,6 @@ body {
 .toggle-sidebar {
   cursor: pointer;
   color: #FFD700;
-  transition: color var(--transition), transform var(--transition);
-}
-.toggle-sidebar:focus {
-  outline: var(--focus-outline);
-  box-shadow: var(--focus-shadow);
-}
-.toggle-sidebar:hover {
-  color: #fffbe6;
-  transform: scale(1.2);
 }
 
 .logo {
@@ -127,12 +104,6 @@ body {
   font-weight: bold;
   font-size: 1.5rem;
   margin-left: 10px;
-  box-shadow: 0 2px 8px rgba(255,215,0,0.08);
-  transition: box-shadow var(--transition);
-}
-.logo:focus {
-  outline: var(--focus-outline);
-  box-shadow: var(--focus-shadow);
 }
 
 .app-name {
@@ -148,8 +119,6 @@ body {
   margin: 0 15px 20px;
   border-radius: 8px;
   border: 1px solid #333;
-  gap: 12px;
-  transition: box-shadow var(--transition);
 }
 
 .avatar {
@@ -164,13 +133,6 @@ body {
   font-weight: bold;
   font-size: 1.2rem;
   margin-left: 10px;
-  box-shadow: 0 2px 8px rgba(255,215,0,0.08);
-  transition: box-shadow var(--transition), background var(--transition);
-  user-select: none;
-}
-.avatar:focus {
-  outline: var(--focus-outline);
-  box-shadow: var(--focus-shadow);
 }
 
 .username {
@@ -252,7 +214,6 @@ body {
   flex: 1;
   overflow-y: auto;
   padding: 0 15px;
-  scroll-behavior: smooth;
 }
 
 .users-list, .contacts-list {
@@ -268,23 +229,16 @@ body {
   margin-bottom: 5px;
   cursor: pointer;
   transition: all 0.2s;
-  outline: none;
 }
 
 .user-item:hover, .contact-item:hover {
   background: rgba(255, 215, 0, 0.1);
 }
 
-.user-item:focus, .contact-item:focus {
-  outline: var(--focus-outline);
-  box-shadow: var(--focus-shadow);
-}
-
 .user-item .avatar, .contact-item .avatar {
   width: 32px;
   height: 32px;
-  font-size: 1.1rem;
-  margin-left: 8px;
+  font-size: 0.9rem;
 }
 
 .user-item .contact-info, .contact-item .contact-info {
@@ -318,15 +272,6 @@ body {
   flex-direction: column;
   background: rgba(5, 5, 5, 0.6);
   backdrop-filter: blur(6px);
-  transition: background var(--transition);
-}
-
-.fade-section {
-  animation: fadeInSection 0.6s cubic-bezier(.4,0,.2,1);
-}
-@keyframes fadeInSection {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 .chat-header, .dm-header {
@@ -336,7 +281,6 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background var(--transition);
 }
 
 .header-left {
@@ -374,11 +318,6 @@ body {
   transition: all 0.3s;
 }
 
-.header-action:focus {
-  outline: var(--focus-outline);
-  box-shadow: var(--focus-shadow);
-}
-
 .header-action:hover {
   background: rgba(255, 215, 0, 0.1);
   transform: scale(1.15);
@@ -409,8 +348,6 @@ body {
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 215, 0, 0.1);
   border-radius: 8px;
-  scroll-behavior: smooth;
-  transition: background var(--transition);
 }
 
 .welcome-message {
@@ -427,17 +364,13 @@ body {
 
 .message {
   max-width: 75%;
-  padding: 14px 18px;
-  border-radius: 14px;
-  margin-bottom: 18px;
+  padding: 12px 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
   position: relative;
-  transition: all 0.3s cubic-bezier(.4,0,.2,1);
+  transition: all 0.3s ease;
   transform-origin: center bottom;
-  animation: slideIn 0.3s cubic-bezier(.4,0,.2,1);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  box-shadow: 0 2px 8px rgba(255,215,0,0.04);
+  animation: slideIn 0.3s ease-out;
 }
 
 .message.received {
@@ -458,53 +391,35 @@ body {
   backdrop-filter: blur(2px);
 }
 
-.message.received:hover,
+.message.received:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+}
+
 .message.sent:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 5px 18px rgba(255, 215, 0, 0.18);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
 }
 
 .message-header {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 2px;
-}
-
-.sender-avatar {
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(to bottom, #FFD700, #FFD700);
-  color: #000;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1rem;
-  margin-left: 6px;
-  user-select: none;
+  justify-content: space-between;
+  margin-bottom: 5px;
 }
 
 .sender-name {
   font-weight: bold;
   color: #FFD700;
-  font-size: 1rem;
 }
 
 .message-time {
-  color: #aaa;
-  font-size: 0.85rem;
-  margin-right: auto;
-  margin-left: 8px;
-  white-space: nowrap;
+  color: #777;
+  font-size: 0.8rem;
 }
 
 .message-content {
-  line-height: 1.6;
+  line-height: 1.5;
   color: #ffffff;
-  word-break: break-word;
 }
 
 .chat-image {
@@ -534,7 +449,6 @@ body {
   padding: 0 12px;
   box-shadow: 0 1px 6px rgba(255, 215, 0, 0.04);
   transition: box-shadow var(--transition);
-  position: relative;
 }
 
 .message-input {
@@ -546,11 +460,6 @@ body {
   padding: 14px 0;
   outline: none;
   transition: color var(--transition);
-}
-
-.message-input:focus {
-  outline: var(--focus-outline);
-  box-shadow: var(--focus-shadow);
 }
 
 .input-actions {
@@ -568,11 +477,6 @@ body {
   margin: 0 8px;
   cursor: pointer;
   transition: color var(--transition), transform var(--transition);
-}
-
-.input-actions i:focus {
-  outline: var(--focus-outline);
-  box-shadow: var(--focus-shadow);
 }
 
 .input-actions i:hover {
@@ -601,11 +505,6 @@ body {
   display: flex;
   align-items: center;
   transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
-}
-
-.send-button:focus {
-  outline: var(--focus-outline);
-  box-shadow: var(--focus-shadow);
 }
 
 .send-button:hover {
@@ -781,6 +680,6 @@ body {
   transition: border var(--transition), box-shadow var(--transition);
 }
 .setting-item select:focus {
-  border-color: #fffbe6;
+  border-color: #fffbe6;-+
   box-shadow: 0 0 6px #FFD700;
 }
