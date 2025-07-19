@@ -34,6 +34,8 @@ const emojiIcon = document.querySelector('.emoji-icon');
 const emojiPicker = document.getElementById('emojiPicker');
 
 let pendingMessage = null;
+let allUsers = [];
+let onlineUsersCurrent = [];
 
 // تحميل الرسائل العامة
 const loadMessages = async () => {
@@ -135,23 +137,21 @@ const renderMessage = (msg) => {
 };
 
 // تحديث حالة المستخدمين
-const updateUserStatuses = (onlineUsers) => {
-  document.querySelectorAll('.user-item').forEach(item => {
-    const username = item.dataset.username;
-    const statusElement = item.querySelector('.user-status-indicator');
-    
-    if (statusElement) {
-      statusElement.className = 'user-status-indicator';
-      
-      if (onlineUsers.includes(username)) {
-        statusElement.classList.add('status-online');
-        statusElement.title = 'نشط الآن';
-      } else {
-        statusElement.classList.add('status-offline');
-        statusElement.title = 'غير متصل';
-      }
-    }
+const renderOnlineUsers = () => {
+  allUsersList.innerHTML = '';
+  onlineUsersCurrent.forEach(username => {
+    const userElement = createUserElement(username);
+    const statusElement = document.createElement('span');
+    statusElement.className = 'user-status-indicator status-online';
+    statusElement.title = 'نشط الآن';
+    userElement.querySelector('.username').appendChild(statusElement);
+    allUsersList.appendChild(userElement);
   });
+};
+
+const updateUserStatuses = (onlineUsers) => {
+  onlineUsersCurrent = allUsers.filter(u => onlineUsers.includes(u) && u !== user);
+  renderOnlineUsers();
 };
 
 const playNotification = () => {
@@ -248,21 +248,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // تحميل المستخدمين
 const loadUsers = async () => {
   try {
-    const users = await fetchData(API.users);
-    allUsersList.innerHTML = '';
-    
-    for (const username of users) {
-      if (username !== user) {
-        const userElement = createUserElement(username);
-        
-        const statusElement = document.createElement('span');
-        statusElement.className = 'user-status-indicator status-offline';
-        statusElement.title = 'غير متصل';
-        userElement.querySelector('.username').appendChild(statusElement);
-        
-        allUsersList.appendChild(userElement);
-      }
-    }
+    allUsers = await fetchData(API.users);
+    updateUserStatuses(onlineUsersCurrent);
   } catch (error) {
     showError('فشل تحميل المستخدمين: ' + error.message);
   }

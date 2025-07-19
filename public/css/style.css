@@ -7,10 +7,12 @@
 }
 
 body {
-  background-color: #0a0a0a;
+  /* more modern dark gradient */
+  background: linear-gradient(135deg, #050505, #0d0d0d);
   color: #e0e0e0;
   height: 100vh;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 body.light-theme {
@@ -30,8 +32,9 @@ body.light-theme .main-content {
 /* الشريط الجانبي */
 .sidebar {
   width: 280px;
-  background: linear-gradient(to bottom, #121212, #0a0a0a);
-  border-left: 1px solid #333;
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(8px);
+  border-left: 1px solid rgba(255, 215, 0, 0.15);
   display: flex;
   flex-direction: column;
   padding: 20px 0;
@@ -248,7 +251,8 @@ body.light-theme .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(to bottom, #080808, #000);
+  background: rgba(5, 5, 5, 0.6);
+  backdrop-filter: blur(6px);
 }
 
 .chat-header, .dm-header {
@@ -322,6 +326,9 @@ body.light-theme .main-content {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 8px;
 }
 
 .welcome-message {
@@ -353,6 +360,7 @@ body.light-theme .main-content {
   background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.9));
   border: 1px solid rgba(51, 51, 51, 0.5);
   border-left: 3px solid #FFD700;
+  backdrop-filter: blur(2px);
 }
 
 .message.sent {
@@ -361,6 +369,7 @@ body.light-theme .main-content {
   background: linear-gradient(135deg, rgba(40, 40, 40, 0.8), rgba(20, 20, 20, 0.9));
   border: 1px solid rgba(80, 80, 80, 0.5);
   border-right: 3px solid #FFD700;
+  backdrop-filter: blur(2px);
 }
 
 .message.received:hover {

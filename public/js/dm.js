@@ -39,6 +39,7 @@ const emojiPicker = document.getElementById('emojiPicker');
 
 let currentReceiver = '';
 let allUsers = [];
+let onlineUsersCurrent = [];
 let isTyping = false;
 let typingTimeout;
 
@@ -46,15 +47,13 @@ let typingTimeout;
 const loadUsers = async () => {
   try {
     allUsers = await fetchData(API.users);
-    const otherUsers = allUsers.filter(u => u !== user);
-    
-    renderContacts(otherUsers);
-    
+    renderOnlineContacts();
+
     const savedReceiver = sessionStorage.getItem('last_receiver');
-    if (savedReceiver && otherUsers.includes(savedReceiver)) {
+    if (savedReceiver && onlineUsersCurrent.includes(savedReceiver)) {
       selectContact(savedReceiver);
-    } else if (otherUsers.length > 0) {
-      selectContact(otherUsers[0]);
+    } else if (onlineUsersCurrent.length > 0) {
+      selectContact(onlineUsersCurrent[0]);
     }
   } catch (error) {
     showError('فشل تحميل المستخدمين: ' + error.message);
@@ -64,7 +63,7 @@ const loadUsers = async () => {
 // عرض جهات الاتصال
 const renderContacts = (users) => {
   dmContactsList.innerHTML = '';
-  
+
   users.forEach(username => {
     const contactEl = createUserElement(username);
     contactEl.addEventListener('click', () => {
@@ -77,13 +76,19 @@ const renderContacts = (users) => {
     newMsgBadge.style.display = 'none';
     contactEl.appendChild(newMsgBadge);
     
+
     const statusElement = document.createElement('span');
-    statusElement.className = 'user-status-indicator status-offline';
-    statusElement.title = 'غير متصل';
+    statusElement.className = 'user-status-indicator status-online';
+    statusElement.title = 'نشط الآن';
     contactEl.querySelector('.username').appendChild(statusElement);
-    
+
     dmContactsList.appendChild(contactEl);
   });
+};
+
+const renderOnlineContacts = () => {
+  const othersOnline = onlineUsersCurrent.filter(u => u !== user);
+  renderContacts(othersOnline);
 };
 
 // اختيار جهة اتصال
@@ -315,28 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // تحديث حالة المستخدمين
   window.addEventListener('userStatusUpdate', (event) => {
-    const onlineUsers = event.detail;
-    
+    onlineUsersCurrent = allUsers.filter(u => event.detail.includes(u));
+
     if (currentReceiver) {
-      updateRecipientStatus(onlineUsers.includes(currentReceiver));
+      updateRecipientStatus(onlineUsersCurrent.includes(currentReceiver));
     }
-    
-    document.querySelectorAll('.user-item').forEach(item => {
-      const username = item.dataset.username;
-      const statusElement = item.querySelector('.user-status-indicator');
-      
-      if (statusElement) {
-        statusElement.className = 'user-status-indicator';
-        
-        if (onlineUsers.includes(username)) {
-          statusElement.classList.add('status-online');
-          statusElement.title = 'نشط الآن';
-        } else {
-          statusElement.classList.add('status-offline');
-          statusElement.title = 'غير متصل';
-        }
-      }
-    });
+
+    renderOnlineContacts();
   });
   
   // استقبال إشعارات الكتابة
