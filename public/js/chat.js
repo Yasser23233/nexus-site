@@ -91,14 +91,6 @@ const sendMessage = async (customContent) => {
       timestamp: new Date().toISOString()
     });
     
-    await fetchData(API.send, {
-      method: 'POST',
-      body: JSON.stringify({ 
-        sender: user, 
-        content 
-      })
-    });
-    
     msgInput.value = '';
     msgInput.focus();
   } catch (error) {

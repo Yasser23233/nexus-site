@@ -169,15 +169,6 @@ const sendDM = async (customContent) => {
       timestamp: new Date().toISOString()
     });
     
-    await fetchData(API.send, {
-      method: 'POST',
-      body: JSON.stringify({ 
-        sender: user, 
-        receiver: currentReceiver, 
-        content 
-      })
-    });
-    
     dmInput.value = '';
     dmInput.focus();
   } catch (error) {
