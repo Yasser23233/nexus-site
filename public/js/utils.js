@@ -216,7 +216,11 @@ let reconnectAttempts = 0;
 const maxReconnectAttempts = 5;
 
 export const connectWebSocket = () => {
-  if (socket && socket.readyState === WebSocket.OPEN) return;
+  // prevent duplicate connections if one is already active or connecting
+  if (socket &&
+      (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) {
+    return;
+  }
   
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
   const host = window.location.host;
