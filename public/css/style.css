@@ -41,7 +41,7 @@ body.light-theme .main-content {
 }
 
 .sidebar.collapsed {
-  transform: translateX(220px);
+  transform: translateX(-220px);
   width: 0;
   overflow: hidden;
 }

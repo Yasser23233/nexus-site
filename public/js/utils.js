@@ -120,26 +120,15 @@ export const setupSidebarToggle = () => {
     if (sidebar.classList.contains('collapsed')) {
       icon.classList.remove('fa-chevron-left');
       icon.classList.add('fa-chevron-right');
+      toggleBtn.title = 'إظهار الشريط الجانبي';
     } else {
       icon.classList.remove('fa-chevron-right');
       icon.classList.add('fa-chevron-left');
+      toggleBtn.title = 'إخفاء الشريط الجانبي';
     }
   });
 };
 
-// تهيئة زر تبديل المظهر
-export const setupThemeToggle = () => {
-  const toggleBtn = document.getElementById('themeToggle');
-  if (!toggleBtn) return;
-  const body = document.body;
-  if (localStorage.getItem('theme') === 'light') {
-    body.classList.add('light-theme');
-  }
-  toggleBtn.addEventListener('click', () => {
-    body.classList.toggle('light-theme');
-    localStorage.setItem('theme', body.classList.contains('light-theme') ? 'light' : 'dark');
-  });
-};
 
 // إدارة الحالة الكاملة للشاشة
 export const setupFullscreenToggle = () => {
