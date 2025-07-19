@@ -591,3 +591,22 @@ body.light-theme .main-content {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* إعدادات */
+.settings-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.setting-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.setting-item button {
+  padding: 10px 20px;
+}
