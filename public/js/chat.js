@@ -156,12 +156,13 @@ const updateUserStatuses = (onlineUsers) => {
   renderOnlineUsers();
 };
 
-const playNotification = () => {
+const playNotification = async () => {
   const settings = JSON.parse(localStorage.getItem('nexus_settings') || '{}');
   if (settings.sound === false) return;
 
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    await ctx.resume();
     const oscillator = ctx.createOscillator();
     oscillator.type = 'sine';
     oscillator.frequency.value = 440;
